@@ -5,7 +5,7 @@
 <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
   <mat-form-field class="selector">
     <mat-label>Especialidad</mat-label>
-    <mat-select>
+    <mat-select [(value)]="especialidadSelec">
       <mat-option *ngFor="let especialidad of especialidades" [value]="especialidad.value">
         {{ especialidad.nombre }}
       </mat-option>
@@ -13,21 +13,22 @@
   </mat-form-field>
   <mat-form-field class="selector">
     <mat-label>Ciclo Lectivo</mat-label>
-    <mat-select>
+    <mat-select [(value)]="cicloSelec">
       <mat-option *ngFor="let cicloLectivo of cicloLectivos" [value]="cicloLectivo.value">
-        {{ cicloLectivo.nombre}}
+        {{ cicloLectivo.nombre }}
       </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field class="selector">
     <mat-label>Turno</mat-label>
-    <mat-select>
+    <mat-select [(value)]="turnoSelec">
       <mat-option *ngFor="let turno of turnos" [value]="turno.value">
-        {{ turno.nombre}}
+        {{ turno.nombre }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-raised-button color="primary" class="btnBuscar">BUSCAR</button>
+  <button mat-raised-button color="primary" class="btnBuscar"
+    (click)="buscarAlumnos(especialidadSelec, turnoSelec, cicloSelec)">BUSCAR</button>
 </div>
 <br>
 <mat-divider></mat-divider>
