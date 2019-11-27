@@ -11,3 +11,19 @@
     width: 120px;
   }
   
+.customCard {
+    margin-bottom: 20px;
+    width: 250px;
+}
+
+.computacionCard {
+    padding-top: 4px;
+}
+
+.electricidadCard {
+    padding-top: 5px;
+}
+
+.electronicaCard {
+    padding-top: 5px;
+}
