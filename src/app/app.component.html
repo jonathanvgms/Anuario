@@ -2,8 +2,8 @@
   <span>Yeakbook</span>
 </mat-toolbar>
 <br>
-<div fxLayout="row wrap" fxLayoutAlign="space-around center">
-  <mat-form-field>
+<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
+  <mat-form-field class="selector">
     <mat-label>Especialidad</mat-label>
     <mat-select>
       <mat-option *ngFor="let especialidad of especialidades" [value]="especialidad.value">
@@ -11,7 +11,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class="selector">
     <mat-label>Ciclo Lectivo</mat-label>
     <mat-select>
       <mat-option *ngFor="let cicloLectivo of cicloLectivos" [value]="cicloLectivo.value">
@@ -19,7 +19,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class="selector">
     <mat-label>Turno</mat-label>
     <mat-select>
       <mat-option *ngFor="let turno of turnos" [value]="turno.value">
@@ -27,11 +27,12 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-button>BUSCAR</button>
+  <button mat-raised-button color="primary" class="btnBuscar">BUSCAR</button>
 </div>
+<br>
 <mat-divider></mat-divider>
 <br>
-<div fxLayout="row wrap" fxLayoutAlign="space-around center">
+<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
   <app-card></app-card>
   <app-card></app-card>
   <app-card></app-card>
