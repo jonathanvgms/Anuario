@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   faStream,
   faCodeBranch,
@@ -6,6 +6,7 @@ import {
   faLightbulb,
   faBolt
 } from "@fortawesome/free-solid-svg-icons";
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
 export interface ValorCadena {
   value: string;
@@ -21,13 +22,47 @@ export interface Graduado {
   turno: string;
 }
 
+const alumnos: Graduado[] = [
+  { name: "Daniel Umiri", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Enzo Cardona", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Katerine Mendez", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Lucas More", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Martin Elias", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Alexis Karnicki", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Ivan Vega", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Nayda Paniagua", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Orlando Apaza", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Federico Scollo", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Nicolas Fernandez", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Patricio Merele", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Dustin Gutierrez", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Veronica Choque", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Jean Pierre Paredes", cicloLectivo: "2018", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Cynthia Espinola", cicloLectivo: "2018", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Franciso Scagliarini", cicloLectivo: "2018", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Agustin Santich", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Florencia Medina", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Jonas Talco", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Axel Benitez", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Leonel Siles", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Computación", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Homero Simpson", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Electricidad", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
+  { name: "Homero Simpson", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "Electrónica", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" }
+];
+
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
 
-export class AppComponent {
+
+export class AppComponent implements OnInit {
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  graduados = new MatTableDataSource<Graduado>(alumnos);
+
   title = "Nombre";
 
   faStream = faStream;
@@ -35,12 +70,13 @@ export class AppComponent {
   faLaptopCode = faLaptopCode;
   faLightbulb = faLightbulb;
   faBolt = faBolt;
-  graduados: Graduado[] = [];
+
+  columnas: string[] = ['name', 'area', 'turno', 'cicloLectivo'];
 
   especialidades: ValorCadena[] = [
-    { value: "computacion", nombre: "Computación" },
-    { value: "electricidad", nombre: "Electricidad" },
-    { value: "electronica", nombre: "Electrónica" }
+    { value: "Computación", nombre: "Computación" },
+    { value: "Electricidad", nombre: "Electricidad" },
+    { value: "Electrónica", nombre: "Electrónica" }
   ];
 
   cicloLectivos: ValorCadena[] = [
@@ -55,44 +91,22 @@ export class AppComponent {
     { value: "Noche", nombre: "Noche" }
   ];
 
-  alumnos: Graduado[] = [
-    { name: "Daniel Umiri", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Enzo Cardona", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Katerine Mendez", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Lucas More", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Martin Elias", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Alexis Karnicki", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Ivan Vega", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Nayda Paniagua", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Orlando Apaza", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Federico Scollo", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Nicolas Fernandez", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Patricio Merele", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Dustin Gutierrez", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Veronica Choque", cicloLectivo: "2019", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Jean Pierre Paredes", cicloLectivo: "2018", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Cynthia Espinola", cicloLectivo: "2018", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Franciso Scagliarini", cicloLectivo: "2018", turno: "Tarde", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Agustin Santich", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Florencia Medina", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Jonas Talco", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Axel", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Siles", cicloLectivo: "2018", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "computacion", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Homero Simpson", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "electricidad", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" },
-    { name: "Homero Simpson", cicloLectivo: "2019", turno: "Mañana", description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", area: "electronica", picture: "https://i.pinimg.com/originals/c6/68/4b/c6684b9133ef7d9104b62cc4b94b4d22.jpg" }
-  ];
 
   buscarAlumnos(especialidad: string, turno: string, cicloLectivo: string) {
 
-    this.graduados = this.alumnos;
+    this.graduados.data = alumnos;
 
     if (especialidad)
-      this.graduados = this.graduados.filter(a => a.area === especialidad);
+      this.graduados.data = this.graduados.data.filter(x => x.area == especialidad);
     if (turno)
-      this.graduados = this.graduados.filter(a => a.turno === turno);
+      this.graduados.data = this.graduados.data.filter(x => x.turno == turno);
     if (cicloLectivo)
-      this.graduados = this.graduados.filter(a => a.cicloLectivo === cicloLectivo);
+      this.graduados.data = this.graduados.data.filter(x => x.cicloLectivo == cicloLectivo);
+  }
 
-    this.graduados = this.graduados.sort((a, b) => a.name.localeCompare(b.name));
+
+  ngOnInit() {
+    this.graduados.sort = this.sort;
+    this.graduados.paginator = this.paginator;
   }
 }

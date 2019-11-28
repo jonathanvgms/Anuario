@@ -27,3 +27,12 @@
 .electronicaCard {
     padding-top: 5px;
 }
+
+.mat-elevation-z8 {
+    width: 90%;
+    margin-left: 5%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+  }
