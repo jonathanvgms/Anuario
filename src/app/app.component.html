@@ -31,34 +31,21 @@
     (click)="buscarAlumnos(especialidadSelec, turnoSelec, cicloSelec)">BUSCAR</button>
 </div>
 <br>
-<mat-divider></mat-divider>
-<br>
 <div class="mat-elevation-z8">
-  <mat-table [dataSource]="graduados" matSort>
-
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="area">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let element"> {{element.area}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="turno">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Turno </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.turno}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="cicloLectivo">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Ciclo Lectivo </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.cicloLectivo}} </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
-
-  </mat-table>
-  <mat-paginator [pageSize]="9" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-accordion *ngFor="let graduado of graduados">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ graduado.name }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <b>Especialidad</b>: {{graduado.area}}
+      <br>
+      <br>
+      <b>Ciclo Lectivo</b>: {{graduado.cicloLectivo}}
+      <br>
+      <br>
+      <b>Turno</b>: {{graduado.turno}}
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>

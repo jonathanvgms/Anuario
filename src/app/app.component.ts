@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  graduados = new MatTableDataSource<Graduado>(alumnos);
+  graduados: Graduado[] = []; //= new MatTableDataSource<Graduado>(alumnos);
 
   title = "Nombre";
 
@@ -94,19 +94,21 @@ export class AppComponent implements OnInit {
 
   buscarAlumnos(especialidad: string, turno: string, cicloLectivo: string) {
 
-    this.graduados.data = alumnos;
+    this.graduados = alumnos;
 
     if (especialidad)
-      this.graduados.data = this.graduados.data.filter(x => x.area == especialidad);
+      this.graduados = this.graduados.filter(x => x.area == especialidad);
     if (turno)
-      this.graduados.data = this.graduados.data.filter(x => x.turno == turno);
+      this.graduados = this.graduados.filter(x => x.turno == turno);
     if (cicloLectivo)
-      this.graduados.data = this.graduados.data.filter(x => x.cicloLectivo == cicloLectivo);
+      this.graduados = this.graduados.filter(x => x.cicloLectivo == cicloLectivo);
+
+    this.graduados = this.graduados.sort();
   }
 
 
   ngOnInit() {
-    this.graduados.sort = this.sort;
-    this.graduados.paginator = this.paginator;
+    // this.graduados.sort = this.sort;
+    // this.graduados.paginator = this.paginator;
   }
 }

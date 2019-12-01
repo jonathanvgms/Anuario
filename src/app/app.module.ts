@@ -13,6 +13,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatExpansionModule } from '@angular/material/expansion'
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -31,6 +32,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatExpansionModule,
     FontAwesomeModule,
     FlexLayoutModule
   ],
